@@ -1,0 +1,165 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "AI Content API",
+    "version": "1.0.0",
+    "description": "Fast, affordable AI text generation: summarize, rewrite, improve, generate product descriptions, titles and SEO meta descriptions. Powered by open LLMs."
+  },
+  "servers": [
+    { "url": "https://diego-recorder-george-history.trycloudflare.com" }
+  ],
+  "paths": {
+    "/v1/ai/summarize": {
+      "post": {
+        "summary": "Summarize text",
+        "operationId": "summarize",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["text"],
+                "properties": {
+                  "text": { "type": "string", "example": "Long text to summarize..." },
+                  "sentences": { "type": "integer", "default": 2, "minimum": 1, "maximum": 8 },
+                  "language": { "type": "string", "default": "", "description": "Output language; empty = same as input" },
+                  "quality": { "type": "boolean", "default": false, "description": "Use higher-quality (slower) model" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/v1/ai/rewrite": {
+      "post": {
+        "summary": "Rewrite text in a chosen tone",
+        "operationId": "rewrite",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["text"],
+                "properties": {
+                  "text": { "type": "string", "example": "Text to rewrite..." },
+                  "tone": { "type": "string", "default": "professional", "description": "professional | casual | friendly | persuasive | formal | simple" },
+                  "language": { "type": "string", "default": "" },
+                  "quality": { "type": "boolean", "default": false }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/v1/ai/improve": {
+      "post": {
+        "summary": "Fix grammar, spelling and clarity",
+        "operationId": "improve",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["text"],
+                "properties": {
+                  "text": { "type": "string", "example": "their going to the store tommorow" },
+                  "quality": { "type": "boolean", "default": false }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/v1/ai/product-description": {
+      "post": {
+        "summary": "Generate an e-commerce product description",
+        "operationId": "productDescription",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": { "type": "string", "example": "Stainless Steel Insulated Water Bottle" },
+                  "features": { "type": "string", "example": "750ml, 24h cold, 12h hot, leak-proof, BPA-free" },
+                  "words": { "type": "integer", "default": 60, "minimum": 20, "maximum": 200 },
+                  "tone": { "type": "string", "default": "persuasive", "description": "persuasive | professional | casual | luxury | playful" },
+                  "language": { "type": "string", "default": "English" },
+                  "quality": { "type": "boolean", "default": false }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/v1/ai/titles": {
+      "post": {
+        "summary": "Generate catchy titles / headlines",
+        "operationId": "titles",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["topic"],
+                "properties": {
+                  "topic": { "type": "string", "example": "how to save money on groceries" },
+                  "count": { "type": "integer", "default": 5, "minimum": 1, "maximum": 12 },
+                  "style": { "type": "string", "default": "catchy", "description": "catchy | professional | clickbait | seo | youtube" },
+                  "language": { "type": "string", "default": "English" },
+                  "quality": { "type": "boolean", "default": false }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/v1/ai/meta-description": {
+      "post": {
+        "summary": "Generate an SEO meta description",
+        "operationId": "metaDescription",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["text"],
+                "properties": {
+                  "text": { "type": "string", "example": "A beginner guide to composting at home." },
+                  "keyword": { "type": "string", "example": "home composting" },
+                  "language": { "type": "string", "default": "English" },
+                  "quality": { "type": "boolean", "default": false }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/v1/ai/health": {
+      "get": {
+        "summary": "Health check",
+        "operationId": "aiHealth",
+        "responses": { "200": { "description": "OK" } }
+      }
+    }
+  }
+}
